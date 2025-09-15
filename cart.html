@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سبد خرید</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-item p {
+            font-size: 18px;
+            color: #555;
+        }
+        .cart-item button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cart-item button:hover {
+            background-color: #218838;
+        }
+        #total-price {
+            text-align: center;
+            font-size: 22px;
+            margin-top: 20px;
+            color: #333;
+        }
+        button.checkout {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button.checkout:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>سبد خرید شما</h2>
+        <div id="cart-items"></div>
+        <p id="total-price">مجموع: 0 تومان</p>
+        <button class="checkout" onclick="proceedToPayment()">پرداخت</button>
+    </div>
+
+    <script>
+        // بارگذاری سبد خرید از localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let totalPrice = 0;
+
+        // نمایش آیتم‌ها و مجموع قیمت
+        function displayCart() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            cartItemsDiv.innerHTML = '';
+
+            cart.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('cart-item');
+                div.innerHTML = `
+                    <p>${item.productName}: ${item.price.toLocaleString()} تومان</p>
+                    <button onclick="removeFromCart('${item.productName}')">حذف</button>
+                `;
+                cartItemsDiv.appendChild(div);
+            });
+
+            totalPrice = cart.reduce((total, item) => total + item.price, 0);
+            document.getElementById('total-price').textContent = `مجموع: ${totalPrice.toLocaleString()} تومان`;
+        }
+
+        // حذف آیتم از سبد خرید
+        function removeFromCart(productName) {
+            cart = cart.filter(item => item.productName !== productName);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+
+// تابع انتقال به صفحه پرداخت
+function proceedToPayment() {
+    if (cart.length === 0) {
+        alert('سبد خرید شما خالی است!');
+    } else {
+        // ذخیره‌سازی سبد خرید در localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // انتقال به صفحه پرداخت و ارسال اطلاعات سبد خرید به صفحه‌ی پرداخت
+        alert('انتقال به صفحه پرداخت...');
+        window.location.href = 'payment.html';
+    }
+}
+        // اجرای تابع نمایش سبد خرید
+        displayCart();
+    </script>
+
+</body>
+</html>

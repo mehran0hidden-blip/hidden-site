@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تایید پرداخت</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #28a745;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 15px 0;
+            color: #333;
+        }
+
+        .token {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff5722;
+            margin: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .btn:active {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>پرداخت موفقیت‌آمیز بود!</h2>
+        <p>توکن پرداخت شما:</p>
+        <p class="token" id="payment-token"></p>
+        <div class="timer" id="timer">3 ثانیه دیگر به خانه برمی‌گردید...</div>
+        <!-- لینک بازگشت به صفحه اصلی (index.html) -->
+        <a href="index.html" class="btn">بازگشت به خانه</a>
+    </div>
+
+    <script>
+        // نمایش توکن و حذف سبد خرید
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            if (token) {
+                document.getElementById('payment-token').textContent = token;
+
+                // پاک کردن سبد خرید
+                localStorage.removeItem('cart');
+            }
+
+            // تایمر معکوس
+            let timeLeft = 3; // 15 ثانیه
+            const timerElement = document.getElementById('timer');
+            const countdown = setInterval(function() {
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = "index.html"; // بازگشت به صفحه اصلی
+                } else {
+                    timerElement.textContent = `${timeLeft} ثانیه دیگر به خانه برمی‌گردید...`;
+                }
+                timeLeft -= 1;
+            }, 1000);
+        };
+    </script>
+
+</body>
+</html>

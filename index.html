@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه آنلاین</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-image: url('myimage.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            position: relative;
+            height: 200px;
+        }
+        .cart-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .cart-icon span {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 16px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+        }
+        .auth-links {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 20px;
+        }
+        .auth-links a {
+            text-decoration: none;
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .auth-links span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--color);
+            padding: 10px 20px;
+            transition: all var(--transition);
+        }
+        .products {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .product {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 30%;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .product h3 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .product p {
+            font-size: 18px;
+            color: #555;
+        }
+        .product button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .product button:hover {
+            background-color: #218838;
+        }
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        :root {
+            --color: #ffd700;
+            --shadow: rgba(255, 215, 0, 0.6);
+            --glare: hsl(0 0% 100% / 0.75);
+            --font-size: 2rem;
+            --transition: 0.3s ease-in-out;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        .auth-links a {
+            position: relative;
+        }
+        .auth-links a span {
+            font-size: var(--font-size);
+            color: var(--color);
+            transition: all var(--transition);
+        }
+        .auth-links a:hover span {
+            text-shadow: 0 0 10px var(--glare),
+                         0 0 20px var(--glare),
+                         0 0 30px var(--glare);
+            transform: scale(1.05) translateY(-5px);
+        }
+        .auth-links a:active span {
+            transform: scale(1) translateY(0);
+            text-shadow: 0 0 5px var(--shadow),
+                         0 0 10px var(--shadow),
+                         0 0 15px var(--shadow);
+        }
+
+        /* استایل منوی کاربر و خروج */
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+        .username {
+            cursor: pointer;
+            user-select: none;
+        }
+        .logout-anim {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%) translateY(-10px);
+            opacity: 0;
+            color: red;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            pointer-events: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .logout-anim.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>توی این شهر چی میخوای</h1>
+    <p>محصولات فوق‌العاده با قیمت‌های ویژه!</p>
+    <div class="cart-icon" onclick="goToCart()">
+        🛒
+        <span id="cart-count">0</span>
+    </div>
+</header>
+
+<div class="auth-links">
+    <a href="signin.html">
+        <span>ورود</span>
+    </a>
+    <a href="signup.html">
+        <span>ثبت‌نام</span>
+    </a>
+</div>
+
+<div class="container">
+    <div class="products">
+        <div class="product">
+            <img src="image2.jpg" alt="موبایل Samsung Galaxy S22">
+            <h3>موبایل Samsung Galaxy S22</h3>
+            <p>قیمت: 5,000,000 تومان</p>
+            <button onclick="addToCart('موبایل Samsung Galaxy S22', 5000000)">افزودن به سبد خرید</button>
+        </div>
+        <div class="product">
+            <img src="image3.jpg" alt="لپ‌تاپ Asus">
+            <h3>لپ‌تاپ Asus</h3>
+            <p>قیمت: 100,000,000 تومان</p>
+            <button onclick="addToCart('لپ‌تاپ Asus', 100000000)">افزودن به سبد خرید</button>
+        </div>
+        <div class="product">
+            <img src="image1.jpg" alt="ماشین Mercedes Benz">
+            <h3>ماشین Mercedes Benz</h3>
+            <p>قیمت: 100,000,000,000 تومان</p>
+            <button onclick="addToCart('ماشین Mercedes Benz', 100000000000)">افزودن به سبد خرید</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let cart = [];
+function loadCart() {
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    updateCartCount();
+}
+function updateCartCount() {
+    const cartCount = document.getElementById('cart-count');
+    cartCount.textContent = cart.length;
+}
+function addToCart(productName, price) {
+    cart.push({ productName, price });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+}
+function goToCart() {
+    window.location.href = "cart.html";
+}
+
+window.onload = function() {
+    loadCart();
+    const user = localStorage.getItem("currentUser");
+    const authLinks = document.querySelector(".auth-links");
+
+    if(user){
+        // نمایش پیام خوش‌آمد فقط اگر از login آمده باشیم
+        if(sessionStorage.getItem("justLoggedIn")){
+            const welcomeDiv = document.createElement("div");
+            welcomeDiv.style.position = "fixed";
+            welcomeDiv.style.bottom = "-80px";
+            welcomeDiv.style.left = "50%";
+            welcomeDiv.style.transform = "translateX(-50%)";
+            welcomeDiv.style.padding = "15px 30px";
+            welcomeDiv.style.background = "linear-gradient(135deg, #ff9a9e, #fad0c4)";
+            welcomeDiv.style.borderRadius = "20px";
+            welcomeDiv.style.boxShadow = "0 5px 15px rgba(0,0,0,0.3)";
+            welcomeDiv.style.color = "#fff";
+            welcomeDiv.style.fontSize = "1.3rem";
+            welcomeDiv.style.fontWeight = "bold";
+            welcomeDiv.style.textAlign = "center";
+            welcomeDiv.style.zIndex = "1000";
+            welcomeDiv.style.transition = "all 1s ease";
+            welcomeDiv.innerHTML = `خوش آمدی ${user} 🌟`;
+            document.body.appendChild(welcomeDiv);
+
+            setTimeout(() => welcomeDiv.style.bottom = "20px", 100);
+            setTimeout(() => {
+                welcomeDiv.style.bottom = "-80px";
+                setTimeout(() => welcomeDiv.remove(), 1000);
+            }, 3000);
+
+            sessionStorage.removeItem("justLoggedIn");
+        }
+
+        // جایگزینی لینک های ورود/ثبت نام با اسم کاربر و منوی خروج
+        authLinks.innerHTML = `
+            <div class="user-menu">
+                <span class="username">${user}</span>
+                <span class="logout-anim">خروج</span>
+            </div>
+        `;
+
+        const usernameSpan = document.querySelector('.username');
+        const logoutAnim = document.querySelector('.logout-anim');
+
+        usernameSpan.addEventListener('click', () => {
+            logoutAnim.classList.toggle('show');
+        });
+
+        logoutAnim.addEventListener('click', () => {
+            localStorage.removeItem('currentUser');
+            location.reload();
+        });
+    }
+};
+</script>
+</body>
+</html>

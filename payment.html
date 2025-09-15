@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پرداخت آنلاین</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 26px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 18px;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>پرداخت آنلاین</h2>
+        <form id="payment-form">
+            <div class="form-group">
+                <label for="card-name">نام صاحب کارت</label>
+                <input type="text" id="card-name" placeholder="نام صاحب کارت" required>
+            </div>
+            <div class="form-group">
+                <label for="card-number">شماره کارت</label>
+                <input type="text" id="card-number" placeholder="شماره کارت" required>
+            </div>
+            <div class="form-group">
+                <label for="card-expiry">تاریخ انقضا</label>
+                <input type="text" id="card-expiry" placeholder="تاریخ انقضا (MM/YY)" required>
+            </div>
+            <div class="form-group">
+                <label for="card-cvc">CVC</label>
+                <input type="text" id="card-cvc" placeholder="CVC" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">پرداخت</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // شبیه‌سازی پرداخت و برگشت توکن
+        document.getElementById('payment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // اطلاعات فرم
+            const cardName = document.getElementById('card-name').value;
+            const cardNumber = document.getElementById('card-number').value;
+            const cardExpiry = document.getElementById('card-expiry').value;
+            const cardCVC = document.getElementById('card-cvc').value;
+
+            // شبیه‌سازی موفقیت پرداخت
+            const paymentToken = `token_${Date.now()}`;  // توکن فیک
+
+            // ذخیره توکن در localStorage
+            localStorage.setItem('token', paymentToken);
+
+            // نمایش پیام موفقیت
+            alert(`پرداخت موفق با توکن: ${paymentToken}`);
+            
+            // انتقال به صفحه تایید پرداخت با توکن
+            window.location.href = `payment-success.html?token=${paymentToken}`;
+        });
+    </script>
+
+</body>
+</html>
